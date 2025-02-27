@@ -4,6 +4,7 @@ SKU_TABLE = {
     'B': {'price': 30, 'special': (2, 45)},
     'C': {'price': 20, 'special': None},
     'D': {'price': 15, 'special': None},
+    'E': {'price': 40, 'special': None}
 }
 
 def calculate_cost_for_sku(sku, count):
@@ -54,4 +55,5 @@ def checkout(skus: str) -> int:
         total_cost += calculate_cost_for_sku(sku, count)
 
     return total_cost
+
 
