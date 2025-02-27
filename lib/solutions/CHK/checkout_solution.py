@@ -70,11 +70,21 @@ class Checkout:
             if trigger_sku in sku_counts:
                 for offer in offers: 
                     free_sku = offer['free_sku']
-                    if free_sku in adjusted_counts: 
+
+                    if free_sku == trigger_sku and free_sku in adjusted_counts:
+                        trigger_quantity = offer['trigger_quantity']
+                        free_quantity = offer['free_quantity']
+
+                        original_count = sku_counts[trigger_sku]
+
+                        
+                    elif free_sku in adjusted_counts: 
+
                         # Calculate how many free items can be given 
                         num_triggers = sku_counts[trigger_sku] // offer['trigger_quantity']
                         free_items = num_triggers * offer['free_quantity']
                         adjusted_counts[free_sku] = max(0, adjusted_counts[free_sku] - free_items)
+                    
 
         return adjusted_counts
     
@@ -99,6 +109,7 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
 
