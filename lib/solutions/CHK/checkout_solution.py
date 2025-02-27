@@ -7,6 +7,13 @@ SKU_TABLE = {
     'E': {'price': 40, 'special': None}
 }
 
+# We can think of free offers as an adjacency list/graph, where
+# the edge from one node to another represents a free offer, and 
+# only applies when the trigger_quantity of the source node is met.
+FREE_OFFERS = {
+    'E': [{'trigger_quantity': 2, 'free_sku': 'B', 'free_quantity': 1}]
+}
+
 def calculate_cost_for_sku(sku, count):
     if sku not in SKU_TABLE:
         raise ValueError(f"Invalid SKU: {sku}")
@@ -55,5 +62,6 @@ def checkout(skus: str) -> int:
         total_cost += calculate_cost_for_sku(sku, count)
 
     return total_cost
+
 
 
