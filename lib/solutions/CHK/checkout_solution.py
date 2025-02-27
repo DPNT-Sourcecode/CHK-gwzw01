@@ -22,6 +22,9 @@ class Checkout:
         '''
         Scans the input string and returns a dictionary of sku's to the number of occurences.
         '''
+        if not isinstance(sku_string, str):
+            raise ValueError("Input must be a string")
+
         sku_counts = {}
         for sku in sku_string:
             if sku not in self.SKU_TABLE: 

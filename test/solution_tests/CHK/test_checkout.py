@@ -35,6 +35,18 @@ class TestCheckout():
         # Combined offers
         assert checkout_solution.checkout('AAABB') == 175 # 3A(130) + 2B(45)
         assert checkout_solution.checkout('EEBAAB') == 210 # 2E(80) + 2A(100) + 1B(30)
-        assert checkout_solution.checkout('ABCDEABCDE') == 310 # 2A(100) + 1B
+        assert checkout_solution.checkout('ABCDEABCDE') == 280 # 2A(100) + 1B(30) + 2C(40) + 2D(30) + 2E(80)
+
+    def test_checkout_invalid_input(self):
+        # Invalid inputs should return -1
+        assert checkout_solution.checkout('a') == -1 # lowercase 
+        assert checkout_solution.checkout('X') == -1 # invalid SKU 
+        assert checkout_solution.checkout('-') == -1 # Special char 
+        assert checkout_solution.checkout('ABCa') == -1 # mixed valid/invalid
+        assert checkout_solution.checkout('   ') == -1 # spaces
+        assert checkout_solution.checkout(None) == -1 # None
+        assert checkout_solution.checkout(123) == -1 # non-string
+
+        
 
     
