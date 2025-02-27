@@ -14,10 +14,15 @@ class TestCheckout():
 
     def test_checkout_special_offers(self):
         # Special offers for A (3 for 130)
-        assert checkout_solution.checkout('AAA') == 130
-        assert checkout_solution.checkout('AAAA') == 180
-        assert checkout_solution.checkout('AAAAA') == 230
-        assert checkout_solution.checkout('AAAAAA') == 260
+        assert checkout_solution.checkout('AAA') == 130 # 3A offer 
+        assert checkout_solution.checkout('AAAA') == 180 # 3A(130) + 1A(50)
+        assert checkout_solution.checkout('AAAAA') == 200 # 5A offer
+        assert checkout_solution.checkout('AAAAAA') == 250 # 5A(200) + 1A(50)
+        assert checkout_solution.checkout('AAAAAAA') == 300 # 5A(200) + 2A(100)
+        assert checkout_solution.checkout('AAAAAAAA') == 330 # 5A(200) + 3A(130)
+
+        # Verify we're using the most favourable combination for A
+        assert checkout_solution.checkout('AAAAAAAAAA') == 400 # 2 x 
 
         # Special offers for B (2 for 45)
         assert checkout_solution.checkout('BB') == 45

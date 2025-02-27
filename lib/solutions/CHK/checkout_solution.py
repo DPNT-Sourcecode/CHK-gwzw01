@@ -44,10 +44,12 @@ class Checkout:
             total_price = item_info['price'] * count
         else:
             # apply special offers in order (largest quantities first) 
-            for offer_qty, offer_price in item_info['special']: 
-            num_offers = count // item_info['special'][0]
-            total_price = num_offers * item_info['special'][1]
-            remaining_items = count % item_info['special'][0]
+            for offer_qty, offer_price in sorted(item_info['special'], key=lambda x: x[0], reverse=True):
+                num_offers = remaining_items // offer_qty 
+                total_price += num_offers * offer_price
+                remaining_items -= num_offers * offer_qty 
+            
+            # Add remaining items at regular price
             total_price += remaining_items * item_info['price']
 
         return total_price
@@ -95,4 +97,5 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
