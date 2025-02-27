@@ -35,6 +35,13 @@ class TestCheckout():
         assert checkout_solution.checkout('FFFFFF') == 40 # 4F(40) + 2 free. 2 complete groups
         assert checkout_solution.checkout('FFFFFFFF') == 60 # 6F(60) + 2 free. 2 groups + 2 remainder
 
+        # Test self-referential for U (buy 3U get 1U free)
+        assert checkout_solution.checkout('UUU') == 120 # 3U(120)
+        assert checkout_solution.checkout('UUUU') == 120 # 3U(120) + 1 free. Exactly one group
+        assert checkout_solution.checkout('UUUUU') == 160 # 4U(140) + 1 free. 1 complete group + 1 remainder
+        assert checkout_solution.checkout('UUUUUUUU') == 240 # 6U(240) + 2 free. 2 groups
+        
+
     def test_checkout_combined_offers(self):
         # Combined special and free offers
         assert checkout_solution.checkout('AAAAAEEB') == 280 # 5A(200) + 2E(80)
