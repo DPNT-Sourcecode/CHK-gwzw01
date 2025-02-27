@@ -132,6 +132,32 @@ class Checkout:
 
         return adjusted_counts
     
+    def __apply_group_discount_offers(self, sku_counts: dict) -> (dict, int):
+        '''
+        Apply group discount offers to the given sku_counts.
+        Returns an updatd sku_counts dictionary with items used in group offers removed
+        and the total discount applied.
+        '''
+        adjusted_counts = sku_counts.copy()
+        total_discount = 0 
+
+        for offer in self.GROUP_DISCOUNT_OFFERS: 
+            group_items = {}
+
+            # Collect all items in this group from the basket 
+            for sku in offer['group']: 
+                if sku in adjusted_counts and adjusted_counts[sku] > 0:
+                    group_items[sku] = adjusted_counts[sku]
+
+            # If we have items from this group, apply the offer 
+            if group_items:
+                # Calculate how many complete sets we can form for this offer 
+                total_group_items = sum(group_items.values())
+                num_sets = total_group_items // offer['quantity']
+
+                if num_sets > 0:
+                    
+    
     def total(self) -> int:
         counts_to_pay = self._apply_free_offers(self.sku_counts)
 
@@ -153,4 +179,5 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
