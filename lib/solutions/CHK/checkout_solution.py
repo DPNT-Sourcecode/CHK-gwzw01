@@ -144,7 +144,8 @@ class Checkout:
         total_discount = 0 
 
         for offer in self.GROUP_DISCOUNT_OFFERS: 
-            group_items = {}
+            # Collect all items from the group that are in the basket 
+            group_items = [] 
 
             # Collect all items in this group from the basket 
             for sku in offer['group']: 
@@ -220,3 +221,4 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
