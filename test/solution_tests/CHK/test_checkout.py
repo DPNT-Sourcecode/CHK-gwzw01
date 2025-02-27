@@ -81,10 +81,8 @@ class TestCheckout():
 
     def test_all_items(self):
         # One of each item
-        assert checkout('ABCDEFGHIJKLMNOPQRSTUVWXYZ') == 882
+        assert checkout('ABCDEFGHIJKLMNOPQRSTUVWXYZ') == sum(Checkout.SKU_TABLE[sku]['price'] for sku in Checkout.SKU_TABLE)
 
         
 
     
-
-
