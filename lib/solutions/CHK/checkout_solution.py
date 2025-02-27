@@ -11,7 +11,7 @@ class Checkout:
         'H': {'price': 10, 'special': [(10, 80), (5, 45)]},
         'I': {'price': 35, 'special': None},
         'J': {'price': 60, 'special': None},
-        'K': {'price': 80, 'special': [(2, 150)]},
+        'K': {'price': 80, 'special': [(2, 120)]},
         'L': {'price': 90, 'special': None},
         'M': {'price': 15, 'special': None},
         'N': {'price': 40, 'special': None},
@@ -19,14 +19,14 @@ class Checkout:
         'P': {'price': 50, 'special': [(5, 200)]},
         'Q': {'price': 30, 'special': [(3, 80)]},
         'R': {'price': 50, 'special': None},
-        'S': {'price': 30, 'special': None},
+        'S': {'price': 20, 'special': None},
         'T': {'price': 20, 'special': None},
         'U': {'price': 40, 'special': None},
         'V': {'price': 50, 'special': [(3, 130), (2, 90)]},
         'W': {'price': 20, 'special': None},
-        'X': {'price': 90, 'special': None},
-        'Y': {'price': 10, 'special': None},
-        'Z': {'price': 50, 'special': None}
+        'X': {'price': 17, 'special': None},
+        'Y': {'price': 20, 'special': None},
+        'Z': {'price': 21, 'special': None}
     }
 
     # Free offers as an adjacency list/graph
@@ -145,4 +145,3 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
-
