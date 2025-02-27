@@ -16,6 +16,11 @@ def calculate_cost_for_sku(sku, count):
     if item_info['special'] is None:
         total_price = item_info['price'] * count
     else:
+        # The price for items with special offers is 
+        # calculated by first calculating how many full offers we can apply
+        # and then adding the cost of the remaining items. 
+        # For example, if the special offer is 3 for 130, and we have 5 items,
+        # we can apply the offer once, and then add the cost of the remaining 2 items. 
         num_offers = count // item_info['special'][0]
         total_price = num_offers * item_info['special'][1]
         remaining_items = count % item_info['special'][0]
