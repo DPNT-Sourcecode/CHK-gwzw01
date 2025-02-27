@@ -33,6 +33,7 @@ def calculate_cost_for_sku(sku, count):
 def checkout(skus: str) -> int:
     '''
     This function calculates the total cost of a given string of SKUs.
+    If the input string is invalid, the function returns -1.
     '''
     # We presume that the input string is a sequence of characters,
     # where each character is a valid SKU.
@@ -43,7 +44,7 @@ def checkout(skus: str) -> int:
     # Ensure that the input string contains valid SKUs.
     for sku in skus: 
         if sku not in SKU_TABLE:
-            raise ValueError(f"Invalid SKU: {sku}")
+            return -1
         
     # Now we start processing the input. We will create a map
     # of sku's to the number of occurences in the input string. 
@@ -56,7 +57,3 @@ def checkout(skus: str) -> int:
         total_cost += calculate_cost_for_sku(sku, count)
 
     return total_cost
-
-
-
-
