@@ -1,18 +1,32 @@
+class Checkout:
+    # Class attributes. Shared by all instances.
+    SKU_TABLE = {
+        'A': {'price': 50, 'special': (3, 130)},
+        'B': {'price': 30, 'special': (2, 45)},
+        'C': {'price': 20, 'special': None},
+        'D': {'price': 15, 'special': None},
+        'E': {'price': 40, 'special': None}
+    }
 
-SKU_TABLE = {
-    'A': {'price': 50, 'special': (3, 130)},
-    'B': {'price': 30, 'special': (2, 45)},
-    'C': {'price': 20, 'special': None},
-    'D': {'price': 15, 'special': None},
-    'E': {'price': 40, 'special': None}
-}
+    # We can think of free offers as an adjacency list/graph, where
+    # the edge from one node to another represents a free offer, and 
+    # only applies when the trigger_quantity of the source node is met.
+    FREE_OFFERS = {
+        'E': [{'trigger_quantity': 2, 'free_sku': 'B', 'free_quantity': 1}]
+    }
+    
+    def __init__(self):
+        self.sku_counts = {}
 
-# We can think of free offers as an adjacency list/graph, where
-# the edge from one node to another represents a free offer, and 
-# only applies when the trigger_quantity of the source node is met.
-FREE_OFFERS = {
-    'E': [{'trigger_quantity': 2, 'free_sku': 'B', 'free_quantity': 1}]
-}
+    def scan(self, sku_string: str):
+        for sku in sku_string:
+            self.sku_counts[sku] = self.sku_counts.get(sku, 0) + 1
+
+    def total(self) -> int:
+        return calculate_total_cost(self.sku_counts)
+
+
+
 
 def calculate_cost_for_sku(sku, count):
     if sku not in SKU_TABLE:
@@ -59,6 +73,14 @@ def apply_free_offers(sku_counts: dict) -> dict:
 
     return adjusted_counts
 
+def calculate_total_cost(sku_counts: dict) -> int:
+    counts_to_pay = apply_free_offers(sku_counts)
+
+    total = 0
+    for sku, count in counts_to_pay.items():
+        total += calculate_cost_for_sku(sku, count)
+
+    return total
 
 # noinspection PyUnusedLocal
 # skus = unicode string
@@ -81,11 +103,8 @@ def checkout(skus: str) -> int:
     for sku in skus: 
         sku_counts[sku] = sku_counts.get(sku, 0) + 1
 
-    total_cost = 0
-    for sku, count in sku_counts.items():
-        total_cost += calculate_cost_for_sku(sku, count)
+    return calculate_total_cost(sku_counts)
 
-    return total_cost
 
 
 
