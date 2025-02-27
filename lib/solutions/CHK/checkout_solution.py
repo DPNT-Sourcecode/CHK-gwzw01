@@ -1,3 +1,5 @@
+from typing import Tuple
+
 class Checkout:
     # Class attributes. Shared by all instances.
     SKU_TABLE = {
@@ -11,7 +13,7 @@ class Checkout:
         'H': {'price': 10, 'special': [(10, 80), (5, 45)]},
         'I': {'price': 35, 'special': None},
         'J': {'price': 60, 'special': None},
-        'K': {'price': 70, 'special': [(2, 120)]},
+        'K': {'price': 70, 'special': [(2, 120)]}, # Changed
         'L': {'price': 90, 'special': None},
         'M': {'price': 15, 'special': None},
         'N': {'price': 40, 'special': None},
@@ -24,7 +26,7 @@ class Checkout:
         'U': {'price': 40, 'special': None},
         'V': {'price': 50, 'special': [(3, 130), (2, 90)]},
         'W': {'price': 20, 'special': None},
-        'X': {'price': 17, 'special': None},
+        'X': {'price': 17, 'special': None}, # Changed
         'Y': {'price': 20, 'special': None},
         'Z': {'price': 21, 'special': None}
     }
@@ -132,7 +134,7 @@ class Checkout:
 
         return adjusted_counts
     
-    def __apply_group_discount_offers(self, sku_counts: dict) -> (dict, int):
+    def _apply_group_discount_offers(self, sku_counts: dict) -> Tuple[dict, int]:
         '''
         Apply group discount offers to the given sku_counts.
         Returns an updatd sku_counts dictionary with items used in group offers removed
@@ -218,6 +220,7 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
 
