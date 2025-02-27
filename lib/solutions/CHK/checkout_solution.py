@@ -203,7 +203,7 @@ class Checkout:
         for sku, count in counts_after_groups.items():
             regular_total += self._calculate_cost_for_sku(sku, count)
 
-        return regular_total
+        return regular_total - group_discount
 
 
 # noinspection PyUnusedLocal
@@ -218,6 +218,7 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
 
