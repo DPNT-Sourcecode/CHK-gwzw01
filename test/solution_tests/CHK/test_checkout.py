@@ -65,7 +65,7 @@ class TestCheckout():
         assert checkout_solution.checkout('HHHHHHHHHHKK') == 230  # 10H(80) + 2K(150)
         
         # Complex test with P, Q, and R offers
-        assert checkout_solution.checkout('PPPPPQQQRRR') == 330  # 5P(200) + 3Q(80) + 3R(50) + 1 free Q
+        assert checkout_solution.checkout('PPPPPQQQRRR') == 410  # 5P(200) + 2Q(60) + 3R(150) + 1 free Q
         
         # Complex test with multiple free offers
         assert checkout_solution.checkout('EEBNNMRRQ') == 230  # 2E(80) + 1 free B + 2N(80) + 1M(15) + 2R(100) + 1Q(30) - not enough N for free M
@@ -81,3 +81,4 @@ class TestCheckout():
         
 
     
+
