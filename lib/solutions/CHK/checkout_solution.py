@@ -141,7 +141,7 @@ class Checkout:
         and the total discount applied.
         '''
         adjusted_counts = sku_counts.copy()
-        total_discount = 0 
+        total_group_price = 0 
 
         for offer in self.GROUP_DISCOUNT_OFFERS: 
             # Collect all items from the group that are in the basket 
@@ -157,21 +157,34 @@ class Checkout:
 
             num_sets = len(group_items) // offer['quantity']
 
+            if num_sets > 0:
+                # Calculate special offer price 
+                total_group_price += num_sets * offer['price']
 
-            # Apply group discount to each set 
+                items_to_use = {} 
+                for i in range(num_sets * offer['quantity']): 
+                    sku, _ = group_items[i] 
+                    items_to_use[sku] = items_to_use.get(sku, 0) + 1
+
+                for sku, count in items_to_use.items():
+                    adjusted_counts[sku] -= count 
+            
+            return adjusted_counts, total_group_price
                         
     def total(self) -> int:
         # First, apply free offers (like 2E get 1B free)
         counts_after_free = self._apply_free_offers(self.sku_counts)
 
         # Then apply group discount offers 
-        counts_after_groups, group_discount = self._apply_group_discount_offers(counts_after_free)
+        counts_after_groups, group_price = self._apply_group_discount_offers(counts_after_free)
 
+        # Calculate regular price for remaining items
         regular_total = 0 
         for sku, count in counts_after_groups.items():
             regular_total += self._calculate_cost_for_sku(sku, count)
 
-        return regular_total - group_discount
+        # The final total is the sum of the regular price and special price
+        return regular_total + group_price 
 
 
 # noinspection PyUnusedLocal
@@ -186,5 +199,6 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
