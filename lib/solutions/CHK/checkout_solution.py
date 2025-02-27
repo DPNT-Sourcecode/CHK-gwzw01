@@ -37,9 +37,6 @@ def checkout(skus: str) -> int:
     '''
     # We presume that the input string is a sequence of characters,
     # where each character is a valid SKU.
-
-    # Convert to uppercase to ensure consistency.
-    skus = skus.upper()
     
     # Ensure that the input string contains valid SKUs.
     for sku in skus: 
@@ -57,3 +54,4 @@ def checkout(skus: str) -> int:
         total_cost += calculate_cost_for_sku(sku, count)
 
     return total_cost
+
