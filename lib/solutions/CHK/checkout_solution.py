@@ -124,8 +124,3 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
-
-
-
-
-

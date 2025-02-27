@@ -30,13 +30,16 @@ class TestCheckout():
         assert checkout_solution.checkout('BBBB') == 90
 
     def test_self_referential_free_offers(self):
-        assert checkout_solution.checkout('FFF') == 20 # 2F
+        assert checkout_solution.checkout('FFF') == 20 # 2F(20) + 1 free. Exactly one group
+        assert checkout_solution.checkout('FFFF') == 30 # 3F(30) + 1 free. Still only 1 complete group
+        assert checkout_solution.checkout('FFFFFF') == 40 # 4F(40) + 2 free. 2 complete groups
+        assert checkout_solution.checkout('FFFFFFFF') == 60 # 6F(60) + 2 free. 2 groups + 2 remainder
 
     def test_checkout_combined_offers(self):
         # Combined special and free offers
         assert checkout_solution.checkout('AAAAAEEB') == 280 # 5A(200) + 2E(80)
         assert checkout_solution.checkout('EEBAAB') == 210 # 2E(80) + 2A(100) + 1B(30)
-        assert checkout_solution.checkout('ABCDEABCDE') == 280 # 2A(100) + 1B(30) + 2C(40) + 2D(30) + 2E(80)
+        assert checkout_solution.checkout('ABCDEABCDEFFF') == 300 # 2A(100) + 1B(30) + 2C(40) + 2D(30) + 2E(80) + 2F(20)
 
     def test_checkout_invalid_input(self):
         # Invalid inputs should return -1
@@ -51,5 +54,3 @@ class TestCheckout():
         
 
     
-
-
