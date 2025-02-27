@@ -156,7 +156,36 @@ class Checkout:
                 num_sets = total_group_items // offer['quantity']
 
                 if num_sets > 0:
-                    
+                    # To favour the customer, we want to use the most expensive items first
+                    # for the group discount (to maximize regular-price savings)
+                    items_by_price = sorted(
+                        [(sku, self.SKU_TABLE[sku]['price'], count)
+                         for sku, count in group_items.items()],
+                         key=lambda x: x[1],
+                         reverse=True
+                    )
+
+                    # Track how many items we've used in the offer
+                    items_used = 0
+                    items_to_remove = {} 
+                    regular_price_total = 0
+
+                    # Calculate how many of each  item to use in the offers 
+                    while items_used < num_sets * offer['quantity']:
+                        for sku, price, count in items_by_price:
+                            if items_used >= num_sets * offer['quantity']:
+                                break
+                            
+                            # Use as many of this item as possible for the offer 
+                            can_use = min(count, num_sets * offer['quantity'] - items_used)
+                            items_to_remove[sku] = items_to_remove.get(sku, 0) + can_use 
+                            items_used += can_use 
+                            regular_price_total += can_use * price 
+                        
+                        # Remove the items used in the offers from the adjusted counts 
+                        
+                        
+                        
     
     def total(self) -> int:
         counts_to_pay = self._apply_free_offers(self.sku_counts)
@@ -179,5 +208,6 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
