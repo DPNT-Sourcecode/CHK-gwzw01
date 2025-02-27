@@ -77,7 +77,22 @@ class Checkout:
 
                         original_count = sku_counts[trigger_sku]
 
-                        
+                        # Calculate how many items customer actually pays for
+                        # For "buy 2 get 1 free", customer pays for 2/3 of total items
+                        # Formula: total_paid = ceil(total_count * (trigger_quantity / (trigger_quantity + free_quantity)))
+
+                        total_group_size = trigger_quantity + free_quantity 
+                        full_groups = original_count // total_group_size 
+                        remainder = original_count % total_group_size 
+
+                        # Pay for full groups (2 out of every 3)
+                        items_to_pay = full_groups * trigger_quantity 
+
+                        # For remainder items, pay up to trigger_quantity 
+                        items_to_pay += min(remainder, trigger_quantity)
+
+                        adjusted_counts[free_sku] = items_to_pay
+
                     elif free_sku in adjusted_counts: 
 
                         # Calculate how many free items can be given 
@@ -109,6 +124,7 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
 

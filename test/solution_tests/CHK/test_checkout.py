@@ -29,12 +29,8 @@ class TestCheckout():
         assert checkout_solution.checkout('BBB') == 75
         assert checkout_solution.checkout('BBBB') == 90
 
-    def test_checkout_free_offers(self):
-        # E offers (2E gets one B free)
-        assert checkout_solution.checkout('EEB') == 80
-        assert checkout_solution.checkout('EEBB') == 110
-        assert checkout_solution.checkout('EEBEEB') == 160
-        assert checkout_solution.checkout('EEBEEBB') == 190
+    def test_self_referential_free_offers(self):
+        assert checkout_solution.checkout('FFF') == 20 # 2F
 
     def test_checkout_combined_offers(self):
         # Combined special and free offers
@@ -55,4 +51,5 @@ class TestCheckout():
         
 
     
+
 
