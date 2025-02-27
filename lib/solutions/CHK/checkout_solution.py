@@ -146,54 +146,19 @@ class Checkout:
         for offer in self.GROUP_DISCOUNT_OFFERS: 
             # Collect all items from the group that are in the basket 
             group_items = [] 
-
-            # Collect all items in this group from the basket 
             for sku in offer['group']: 
                 if sku in adjusted_counts and adjusted_counts[sku] > 0:
-                    group_items[sku] = adjusted_counts[sku]
+                    # Create flat list of items
+                    for _ in range(adjusted_counts[sku]):
+                        group_items.append((sku, self.SKU_TABLE[sku]['price']))
 
-            # If we have items from this group, apply the offer 
-            if group_items:
-                # Calculate how many complete sets we can form for this offer 
-                total_group_items = sum(group_items.values())
-                num_sets = total_group_items // offer['quantity']
+            # Sort by price (descending) to use most expensive items first 
+            group_items.sort(key=lambda x: x[1], reverse=True)
 
-                if num_sets > 0:
-                    # To favour the customer, we want to use the most expensive items first
-                    # for the group discount (to maximize regular-price savings)
-                    items_by_price = sorted(
-                        [(sku, self.SKU_TABLE[sku]['price'], count)
-                         for sku, count in group_items.items()],
-                         key=lambda x: x[1],
-                         reverse=True
-                    )
+            num_sets = len(group_items) // offer['quantity']
 
-                    # Track how many items we've used in the offer
-                    items_used = 0
-                    items_to_remove = {} 
-                    regular_price_total = 0
 
-                    # Calculate how many of each  item to use in the offers 
-                    while items_used < num_sets * offer['quantity']:
-                        for sku, price, count in items_by_price:
-                            if items_used >= num_sets * offer['quantity']:
-                                break
-                            
-                            # Use as many of this item as possible for the offer 
-                            can_use = min(count, num_sets * offer['quantity'] - items_used)
-                            items_to_remove[sku] = items_to_remove.get(sku, 0) + can_use 
-                            items_used += can_use 
-                            regular_price_total += can_use * price 
-                        
-                        # Remove the items used in the offers from the adjusted counts 
-                        for sku, count in items_to_remove.items():
-                            adjusted_counts[sku] -= count 
-
-                        # Calculate the discount (difference between regular price and offer price)
-                        discount_total = regular_price_total - (num_sets * offer['price'])
-                        total_discount += discount_total
-
-        return adjusted_counts, total_discount
+            # Apply group discount to each set 
                         
     def total(self) -> int:
         # First, apply free offers (like 2E get 1B free)
@@ -221,4 +186,5 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
