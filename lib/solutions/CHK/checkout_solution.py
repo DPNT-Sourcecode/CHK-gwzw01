@@ -190,8 +190,7 @@ class Checkout:
                         discount_total = regular_price_total - (num_sets * offer['price'])
                         total_discount += discount_total
 
-
-                return adjusted_counts, total_discount
+        return adjusted_counts, total_discount
                         
     def total(self) -> int:
         # First, apply free offers (like 2E get 1B free)
@@ -219,6 +218,7 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
 
