@@ -71,7 +71,7 @@ class TestCheckout():
         assert checkout_solution.checkout('EEBNNMRRQ') == 305  # 2E(80) + 1 free B + 2N(80) + 1M(15) + 2R(100) + 1Q(30) - not enough N for free M
         
         # Test with all types of offers (pricing special offers, free item offers, self-referential)
-        assert checkout_solution.checkout('AAAAABBEEFFFHHHHHKKKNNNMPPPPPQQQRRRUVVV') == 1020
+        assert checkout_solution.checkout('AAAAABBEEFFFHHHHHKKKNNNMPPPPPQQQRRRUVVV') == 1305
         # 5A(200) + 1B(30) + 2E(80) + 1 free B + 2F(20) + 1 free F + 5H(45) + 2K(150) + 1K(80) + 3N(120) + 1 free M + 5P(200) + 2Q(60) + 1 free Q (from R) + 3R(150) + 1U(40) + 3V(130)
 
     def test_all_items(self):
@@ -81,5 +81,6 @@ class TestCheckout():
         
 
     
+
 
 
