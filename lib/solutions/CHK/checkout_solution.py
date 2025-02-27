@@ -12,13 +12,16 @@ def calculate_cost_for_sku(sku, count):
     
     item_info = SKU_TABLE[sku]
     total_price = 0
-    remaining_items = count
 
-    # Calculate how many times we can apply this offer. 
-    num_offers = remaining_items // offer_qty 
-    total_price += num_offers * offer_price 
-    remaining_items -= num_offers * offer_qty
+    if item_info['special'] is None:
+        total_price = item_info['price'] * count
+    else:
+        num_offers = count // item_info['special'][0]
+        total_price = num_offers * item_info['special'][1]
+        remaining_items = count % item_info['special'][0]
+        total_price += remaining_items * item_info['price']
 
+    return total_price
 
 # noinspection PyUnusedLocal
 # skus = unicode string
@@ -40,6 +43,12 @@ def checkout(skus):
     sku_counts = {}
     for sku in skus: 
         sku_counts[sku] = sku_counts.get(sku, 0) + 1
+
+    total_cost = 0
+    for sku, count in sku_counts.items():
+        total_cost += calculate_cost_for_sku(sku, count)
+
+    return total_cost
 
 
 
