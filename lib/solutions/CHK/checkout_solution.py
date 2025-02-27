@@ -1,8 +1,8 @@
 class Checkout:
     # Class attributes. Shared by all instances.
     SKU_TABLE = {
-        'A': {'price': 50, 'special': (3, 130)},
-        'B': {'price': 30, 'special': (2, 45)},
+        'A': {'price': 50, 'special': [(5, 200), (3, 130)]}, # Larger quantities first
+        'B': {'price': 30, 'special': [(2, 45)]},
         'C': {'price': 20, 'special': None},
         'D': {'price': 15, 'special': None},
         'E': {'price': 40, 'special': None}
@@ -38,15 +38,13 @@ class Checkout:
         
         item_info = self.SKU_TABLE[sku]
         total_price = 0
+        remaining_items = count
 
         if item_info['special'] is None:
             total_price = item_info['price'] * count
         else:
-            # The price for items with special offers is 
-            # calculated by first calculating how many full offers we can apply
-            # and then adding the cost of the remaining items. 
-            # For example, if the special offer is 3 for 130, and we have 5 items,
-            # we can apply the offer once, and then add the cost of the remaining 2 items. 
+            # apply special offers in order (largest quantities first) 
+            for offer_qty, offer_price in item_info['special']: 
             num_offers = count // item_info['special'][0]
             total_price = num_offers * item_info['special'][1]
             remaining_items = count % item_info['special'][0]
@@ -97,3 +95,4 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
