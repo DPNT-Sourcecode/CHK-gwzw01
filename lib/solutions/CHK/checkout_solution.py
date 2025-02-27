@@ -11,7 +11,7 @@ class Checkout:
         'H': {'price': 10, 'special': [(10, 80), (5, 45)]},
         'I': {'price': 35, 'special': None},
         'J': {'price': 60, 'special': None},
-        'K': {'price': 80, 'special': [(2, 120)]},
+        'K': {'price': 70, 'special': [(2, 120)]},
         'L': {'price': 90, 'special': None},
         'M': {'price': 15, 'special': None},
         'N': {'price': 40, 'special': None},
@@ -37,6 +37,14 @@ class Checkout:
         'R': [{'trigger_quantity': 3, 'free_sku': 'Q', 'free_quantity': 1}],
         'U': [{'trigger_quantity': 3, 'free_sku': 'U', 'free_quantity': 1}]
     }
+
+    GROUP_DISCOUNT_OFFERS = [
+        {
+            'group': ['S', 'T', 'X', 'Y', 'Z'],
+            'quantity': 3,
+            'price': 45
+        }
+    ]
 
     def __init__(self, sku_string: str):
         self.sku_counts = self._scan(sku_string)
@@ -145,3 +153,4 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+

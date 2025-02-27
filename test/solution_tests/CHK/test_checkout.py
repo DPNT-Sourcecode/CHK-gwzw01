@@ -1,6 +1,13 @@
 from solutions.CHK import checkout_solution
 
+
+
 class TestCheckout():
+    '''
+    Potential for improvement: use prices directly from SKU_TABLE in checkout_solution.py
+    to avoid hardcoding values here. As it stands now, tests become invalidated as soon as price changes,
+    even though logic is may be sound.
+    '''
     def test_checkout_basic(self):
         # Empty string should cost 0
         assert checkout_solution.checkout('') == 0
