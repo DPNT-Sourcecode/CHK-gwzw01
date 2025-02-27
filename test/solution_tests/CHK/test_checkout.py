@@ -67,7 +67,7 @@ class TestCheckout():
         assert checkout('AAAAAEEBAAABBB') == 485  # 5A(200) + 3A(130) + 2E(80) + 1 free B + 2B(45) + B(30)
         
         # Complex test with H and K offers
-        assert checkout('HHHHHHHHHHKK') == 230  # 10H(80) + 2K(150)
+        assert checkout('HHHHHHHHHHKK') == 200  # 10H(80) + 2K(120)
         
         # Complex test with P, Q, and R offers
         assert checkout('PPPPPQQQRRR') == 410  # 5P(200) + 2Q(60) + 3R(150) + 1 free Q
@@ -76,13 +76,13 @@ class TestCheckout():
         assert checkout('EEBNNMRRQ') == 305  # 2E(80) + 1 free B + 2N(80) + 1M(15) + 2R(100) + 1Q(30) - not enough N for free M
         
         # Test with all types of offers (pricing special offers, free item offers, self-referential)
-        assert checkout('AAAAABBEEFFFHHHHHKKKNNNMPPPPPQQQRRRUVVV') == 1305
+        assert checkout('AAAAABBEEFFFHHHHHKKKNNNMPPPPPQQQRRRUVVV') == 1265
         # 5A(200) + 1B(30) + 2E(80) + 1 free B + 2F(20) + 1 free F + 5H(45) + 2K(120) + 1K(70) + 3N(120) + 1 free M + 5P(200) + 2Q(60) + 1 free Q (from R) + 3R(150) + 1U(40) + 3V(130)
 
     def test_group_discount_offers(self):
         assert checkout('STX') == 45 # 1S(20) + 1T(20) + 1X(17)
         assert checkout('STXSTX') == 90 # 2S(40) + 2T(40) + 2X(34)
-        assert checkout('SSSZ') == 66 # 3S(45) + 1Z(21)
+        assert checkout('SSSZ') == 65 # 3S(45) + 1Z(21)
         assert checkout('ZZZSSSZ') == 110 # 3Z(45) + (2S + 1Z)(45) + 1S(20)
 
     # def test_all_items(self):
@@ -92,3 +92,4 @@ class TestCheckout():
         
 
     
+
