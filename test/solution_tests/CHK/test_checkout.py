@@ -51,12 +51,32 @@ class TestCheckout():
     def test_checkout_invalid_input(self):
         # Invalid inputs should return -1
         assert checkout_solution.checkout('a') == -1 # lowercase 
-        assert checkout_solution.checkout('X') == -1 # invalid SKU 
         assert checkout_solution.checkout('-') == -1 # Special char 
         assert checkout_solution.checkout('ABCa') == -1 # mixed valid/invalid
         assert checkout_solution.checkout('   ') == -1 # spaces
         assert checkout_solution.checkout(None) == -1 # None
         assert checkout_solution.checkout(123) == -1 # non-string
+
+    def test_complex_combinations(self):
+        # Test combination of multiple offers
+        assert checkout_solution.checkout('AAAAAEEBAAABBB') == 485  # 5A(200) + 3A(130) + 2E(80) + 1 free B + 2B(45) + B(30)
+        
+        # Complex test with H and K offers
+        assert checkout_solution.checkout('HHHHHHHHHHKK') == 230  # 10H(80) + 2K(150)
+        
+        # Complex test with P, Q, and R offers
+        assert checkout_solution.checkout('PPPPPQQQRRR') == 330  # 5P(200) + 3Q(80) + 3R(50) + 1 free Q
+        
+        # Complex test with multiple free offers
+        assert checkout_solution.checkout('EEBNNMRRQ') == 230  # 2E(80) + 1 free B + 2N(80) + 1M(15) + 2R(100) + 1Q(30) - not enough N for free M
+        
+        # Test with all types of offers (pricing special offers, free item offers, self-referential)
+        assert checkout_solution.checkout('AAAAABBEEFFFHHHHHKKKNNNMPPPPPQQQRRRUVVV') == 1020
+        # 5A(200) + 2B(45) + 2E(80) + 1 free B + 2F(20) + 1 free F + 5H(45) + 2K(150) + 3N(120) + 1 free M + 5P(200) + 2Q(60) + 1 free Q (from R) + 3R(150) + 1U(40) + 3V(130)
+
+    def test_all_items(self):
+        # One of each item
+        assert checkout_solution.checkout('ABCDEFGHIJKLMNOPQRSTUVWXYZ') == 965
 
         
 
