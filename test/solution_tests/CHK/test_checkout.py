@@ -22,7 +22,7 @@ class TestCheckout():
         assert checkout_solution.checkout('AAAAAAAA') == 330 # 5A(200) + 3A(130)
 
         # Verify we're using the most favourable combination for A
-        assert checkout_solution.checkout('AAAAAAAAAA') == 400 # 2 x 
+        assert checkout_solution.checkout('AAAAAAAAAA') == 400 # 2 x 5A offers better than 3 x 3A + A
 
         # Special offers for B (2 for 45)
         assert checkout_solution.checkout('BB') == 45
@@ -37,8 +37,8 @@ class TestCheckout():
         assert checkout_solution.checkout('EEBEEBB') == 190
 
     def test_checkout_combined_offers(self):
-        # Combined offers
-        assert checkout_solution.checkout('AAABB') == 175 # 3A(130) + 2B(45)
+        # Combined special and free offers
+        assert checkout_solution.checkout('AAAAAEEB') == 280 # 5A(200) + 2E(80)
         assert checkout_solution.checkout('EEBAAB') == 210 # 2E(80) + 2A(100) + 1B(30)
         assert checkout_solution.checkout('ABCDEABCDE') == 280 # 2A(100) + 1B(30) + 2C(40) + 2D(30) + 2E(80)
 
@@ -55,3 +55,4 @@ class TestCheckout():
         
 
     
+
