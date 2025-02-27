@@ -36,6 +36,30 @@ def calculate_cost_for_sku(sku, count):
 
     return total_price
 
+
+def apply_free_offers(sku_counts: dict) -> dict: 
+    '''
+    Apply free offers to the given sku_counts, which effectively deducts
+    the free_quantity of the free_sku from the sku_counts. Applied before 
+    calculating the total cost.
+    '''
+    # Deep copy to prevent side effects.
+    adjusted_counts = sku_counts.copy()
+
+    # Look for items that trigger free offers.
+    for trigger_sku, offers in FREE_OFFERS.items():
+        if trigger_sku in sku_counts:
+            for offer in offers: 
+                free_sku = offer['free_sku']
+                if free_sku in adjusted_counts: 
+                    # Calculate how many free items can be given 
+                    num_triggers = sku_counts[trigger_sku] // offer['trigger_quantity']
+                    free_items = num_triggers * offer['free_quantity']
+                    adjusted_counts[free_sku] = max(0, adjusted_counts[free_sku] - free_items)
+
+    return adjusted_counts
+
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus: str) -> int:
@@ -62,6 +86,7 @@ def checkout(skus: str) -> int:
         total_cost += calculate_cost_for_sku(sku, count)
 
     return total_cost
+
 
 
 
