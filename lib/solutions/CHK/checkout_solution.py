@@ -6,15 +6,36 @@ class Checkout:
         'C': {'price': 20, 'special': None},
         'D': {'price': 15, 'special': None},
         'E': {'price': 40, 'special': None},
-        'F': {'price': 10, 'special': None}
+        'F': {'price': 10, 'special': None},
+        'G': {'price': 20, 'special': None},
+        'H': {'price': 10, 'special': [(10, 80), (5, 45)]},
+        'I': {'price': 35, 'special': None},
+        'J': {'price': 60, 'special': None},
+        'K': {'price': 80, 'special': [(2, 150)]},
+        'L': {'price': 90, 'special': None},
+        'M': {'price': 15, 'special': None},
+        'N': {'price': 40, 'special': None},
+        'O': {'price': 10, 'special': None},
+        'P': {'price': 50, 'special': [(5, 200)]},
+        'Q': {'price': 30, 'special': [(3, 80)]},
+        'R': {'price': 50, 'special': None},
+        'S': {'price': 30, 'special': None},
+        'T': {'price': 20, 'special': None},
+        'U': {'price': 40, 'special': None},
+        'V': {'price': 50, 'special': [(3, 130), (2, 90)]},
+        'W': {'price': 20, 'special': None},
+        'X': {'price': 90, 'special': None},
+        'Y': {'price': 10, 'special': None},
+        'Z': {'price': 50, 'special': None}
     }
 
-    # We can think of free offers as an adjacency list/graph, where
-    # the edge from one node to another represents a free offer, and 
-    # only applies when the trigger_quantity of the source node is met.
+    # Free offers as an adjacency list/graph
     FREE_OFFERS = {
         'E': [{'trigger_quantity': 2, 'free_sku': 'B', 'free_quantity': 1}],
-        'F': [{'trigger_quantity': 2, 'free_sku': 'F', 'free_quantity': 1}]
+        'F': [{'trigger_quantity': 2, 'free_sku': 'F', 'free_quantity': 1}],
+        'N': [{'trigger_quantity': 3, 'free_sku': 'M', 'free_quantity': 1}],
+        'R': [{'trigger_quantity': 3, 'free_sku': 'Q', 'free_quantity': 1}],
+        'U': [{'trigger_quantity': 3, 'free_sku': 'U', 'free_quantity': 1}]
     }
 
     def __init__(self, sku_string: str):
@@ -124,3 +145,4 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
