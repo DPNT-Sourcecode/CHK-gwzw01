@@ -183,17 +183,28 @@ class Checkout:
                             regular_price_total += can_use * price 
                         
                         # Remove the items used in the offers from the adjusted counts 
-                        
-                        
-                        
-    
-    def total(self) -> int:
-        counts_to_pay = self._apply_free_offers(self.sku_counts)
+                        for sku, count in items_to_remove.items():
+                            adjusted_counts[sku] -= count 
 
-        total = 0
-        for sku, count in counts_to_pay.items():
-            total += self._calculate_cost_for_sku(sku, count)
-        return total
+                        # Calculate the discount (difference between regular price and offer price)
+                        discount_total = regular_price_total - (num_sets * offer['price'])
+                        total_discount += discount_total
+
+
+                return adjusted_counts, total_discount
+                        
+    def total(self) -> int:
+        # First, apply free offers (like 2E get 1B free)
+        counts_after_free = self._apply_free_offers(self.sku_counts)
+
+        # Then apply group discount offers 
+        counts_after_groups, group_discount = self._apply_group_discount_offers(counts_after_free)
+
+        regular_total = 0 
+        for sku, count in counts_after_groups.items():
+            regular_total += self._calculate_cost_for_sku(sku, count)
+
+        return regular_total
 
 
 # noinspection PyUnusedLocal
@@ -208,6 +219,7 @@ def checkout(skus: str) -> int:
         return checkout.total()
     except ValueError:
         return -1
+
 
 
 
